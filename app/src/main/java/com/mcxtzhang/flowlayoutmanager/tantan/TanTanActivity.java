@@ -1,21 +1,18 @@
 package com.mcxtzhang.flowlayoutmanager.tantan;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
 import com.mcxtzhang.commonadapter.rv.CommonAdapter;
 import com.mcxtzhang.commonadapter.rv.ViewHolder;
 import com.mcxtzhang.flowlayoutmanager.R;
 import com.mcxtzhang.flowlayoutmanager.swipecard.SwipeCardBean;
+import com.mcxtzhang.layoutmanager.helper.ItemTouchHelper;
 import com.mcxtzhang.layoutmanager.swipecard.CardConfig;
 import com.mcxtzhang.layoutmanager.swipecard.OverLayCardLayoutManager;
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 
@@ -49,9 +46,13 @@ public class TanTanActivity extends AppCompatActivity {
             @Override
             public void convert(ViewHolder viewHolder, SwipeCardBean swipeCardBean) {
                 Log.d(TAG, "convert() called with: viewHolder = [" + viewHolder + "], swipeCardBean = [" + swipeCardBean + "]");
-                viewHolder.setText(R.id.tvName, swipeCardBean.getName());
-                viewHolder.setText(R.id.tvPrecent, swipeCardBean.getPostition() + " /" + mDatas.size());
-                Picasso.with(TanTanActivity.this).load(swipeCardBean.getUrl()).into((ImageView) viewHolder.getView(R.id.iv));
+                //viewHolder.setText(R.id.tvName, swipeCardBean.getName());
+                viewHolder.setText(R.id.tvPrecent, swipeCardBean.getPostition() + "");
+                //Picasso.with(TanTanActivity.this).load(swipeCardBean.getUrl()).into((ImageView) viewHolder.getView(R.id.iv));
+            }
+
+            @Override public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
+                super.onViewDetachedFromWindow(holder);
             }
         });
 

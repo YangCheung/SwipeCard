@@ -51,7 +51,7 @@ public class SwipeCardBean {
 
     public static List<SwipeCardBean> initDatas() {
         List<SwipeCardBean> datas = new ArrayList<>();
-        int i = 1;
+        int i = 0;
         datas.add(new SwipeCardBean(i++, "http://imgs.ebrun.com/resources/2016_03/2016_03_25/201603259771458878793312_origin.jpg", "张"));
         datas.add(new SwipeCardBean(i++, "http://p14.go007.com/2014_11_02_05/a03541088cce31b8_1.jpg", "旭童"));
         datas.add(new SwipeCardBean(i++, "http://news.k618.cn/tech/201604/W020160407281077548026.jpg", "多种type"));

@@ -13,15 +13,16 @@
         <activity android:name=".MainActivity">
         </activity>
         <activity android:name=".LauncherActivity">
+
+        </activity>
+        <activity android:name=".swipecard.SwipeCardActivity">
+        </activity>
+        <activity android:name=".tantan.TanTanActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity android:name=".swipecard.SwipeCardActivity">
-        </activity>
-        <activity android:name=".tantan.TanTanActivity">
         </activity>
         <activity android:name=".gallary.GalleryActivity">
         </activity>
