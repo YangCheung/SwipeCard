@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FlowLayoutManager.iml" filepath="$PROJECT_DIR$/FlowLayoutManager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SwipeCard.iml" filepath="$PROJECT_DIR$/SwipeCard.iml" />
       <module fileurl="file://$PROJECT_DIR$/ZLayoutManager.iml" filepath="$PROJECT_DIR$/ZLayoutManager.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/layoutmanager/layoutmanager.iml" filepath="$PROJECT_DIR$/layoutmanager/layoutmanager.iml" />
       <module fileurl="file://$PROJECT_DIR$/layoutmanager/layoutmanager.iml" filepath="$PROJECT_DIR$/layoutmanager/layoutmanager.iml" />
     </modules>
   </component>

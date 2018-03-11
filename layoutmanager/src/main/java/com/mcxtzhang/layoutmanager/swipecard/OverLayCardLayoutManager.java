@@ -17,7 +17,9 @@ import android.view.ViewGroup;
 public class OverLayCardLayoutManager extends RecyclerView.LayoutManager {
     private static final String TAG = "swipecard";
     public static final int NO_POSITION = -1;
-    int mPendingScrollPosition = 3;//NO_POSITION;
+    private static final int MAX_STACK_COUNT = 2;
+
+    int mPendingScrollPosition = NO_POSITION;
 
     @Override
     public RecyclerView.LayoutParams generateDefaultLayoutParams() {
@@ -37,8 +39,6 @@ public class OverLayCardLayoutManager extends RecyclerView.LayoutManager {
 
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        super.onLayoutChildren(recycler, state);
-        Log.e(TAG, "onLayoutChildren() called with: recycler = [" + recycler + "], state = [" + state + "]");
         detachAndScrapAttachedViews(recycler);
         int count = getChildCount();
 
@@ -56,16 +56,18 @@ public class OverLayCardLayoutManager extends RecyclerView.LayoutManager {
             startPosition = mPendingScrollPosition - 1;
         }
 
-        int bottomPosition = startPosition + CardConfig.MAX_SHOW_COUNT;
+        int bottomPosition = startPosition + MAX_STACK_COUNT;
         if (bottomPosition >= itemCount) {
             bottomPosition = itemCount - 1;
+        }
+
+        if(startPosition == 0 && mPendingScrollPosition == 0) {
+            bottomPosition = itemCount > 0 ? 1 : 0;
         }
 
         Log.d("onLayoutChildren", "startPosition = " + startPosition + "  bottomPosition = " + bottomPosition + "   itemCount = " + itemCount);
         for (int position = bottomPosition; position >= startPosition; position --) {
             View view = recycler.getViewForPosition(position);
-
-            Log.d("onLayoutChildren", "position = " + position + "  TranslationX = " + view.getTranslationX());
 
             addView(view);
 

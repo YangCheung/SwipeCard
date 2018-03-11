@@ -11,7 +11,6 @@ import com.mcxtzhang.commonadapter.rv.ViewHolder;
 import com.mcxtzhang.flowlayoutmanager.R;
 import com.mcxtzhang.flowlayoutmanager.swipecard.SwipeCardBean;
 import com.mcxtzhang.layoutmanager.helper.ItemTouchHelper;
-import com.mcxtzhang.layoutmanager.swipecard.CardConfig;
 import com.mcxtzhang.layoutmanager.swipecard.OverLayCardLayoutManager;
 import java.util.List;
 
@@ -56,11 +55,8 @@ public class TanTanActivity extends AppCompatActivity {
             }
         });
 
-        CardConfig.initConfig(this);
-
         final TanTanCallback callback = new TanTanCallback(mRv, mAdapter, mDatas);
 
-        //测试竖直滑动是否已经不会被移除屏幕
         //callback.setHorizontalDeviation(Integer.MAX_VALUE);
 
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);

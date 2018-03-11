@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '25.0.3'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.mcxtzhang.flowlayoutmanager"
         minSdkVersion 14
@@ -21,7 +21,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    //Adapter终结者 地址：https://github.com/mcxtzhang/all-base-adapter
     compile project(':layoutmanager')
     compile 'com.android.support:appcompat-v7:27.1.0'
     //compile 'com.github.mcxtzhang:all-base-adapter:V1.3.0'
