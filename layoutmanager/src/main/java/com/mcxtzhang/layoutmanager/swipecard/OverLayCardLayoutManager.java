@@ -5,25 +5,19 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * 介绍：参考人人影视 最多排列四个
- * 重叠卡片布局
- * 作者：zhangxutong
- * 邮箱：mcxtzhang@163.com
- * 主页：http://blog.csdn.net/zxt0601
- * 时间： 16/12/15.
- */
-
 public class OverLayCardLayoutManager extends RecyclerView.LayoutManager {
-    private static final String TAG = "swipecard";
     public static final int NO_POSITION = -1;
     private static final int MAX_STACK_COUNT = 2;
 
-    int mPendingScrollPosition = NO_POSITION;
+    int mPendingScrollPosition = 0;
 
     @Override
     public RecyclerView.LayoutParams generateDefaultLayoutParams() {
         return new RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    public int getCurrentTopIndex() {
+        return mPendingScrollPosition;
     }
 
     @Override

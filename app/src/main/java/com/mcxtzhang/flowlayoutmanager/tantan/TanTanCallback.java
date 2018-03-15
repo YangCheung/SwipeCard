@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import com.mcxtzhang.layoutmanager.helper.ItemTouchHelper;
+import com.mcxtzhang.layoutmanager.swipecard.OverLayCardLayoutManager;
 import java.util.List;
 
 /**
@@ -45,22 +46,48 @@ public class TanTanCallback extends ItemTouchHelper.SimpleCallback {
     }
 
     @Override
-    public float getSwipeThreshold(RecyclerView.ViewHolder viewHolder) {
-        int index = viewHolder.getLayoutPosition();
-        //if(index == 0 || index)
-        if (isTopViewCenterInHorizontal(viewHolder.itemView)) {
-            return Float.MAX_VALUE;
+    public float getSwipeThreshold(int dir, RecyclerView.ViewHolder viewHolder) {
+        if (mRv.getLayoutManager() instanceof OverLayCardLayoutManager) {
+            OverLayCardLayoutManager layCardLayoutManager = (OverLayCardLayoutManager) mRv.getLayoutManager();
+
+            int top = layCardLayoutManager.getCurrentTopIndex();
+            int index = viewHolder.getLayoutPosition();
+
+            if(index == top && dir == ItemTouchHelper.LEFT ||
+               index == top - 1 && dir == ItemTouchHelper.RIGHT) {
+                return super.getSwipeThreshold(dir, viewHolder);
+            }
         }
-        return super.getSwipeThreshold(viewHolder);
+
+        return Float.MAX_VALUE;
+        //int index = viewHolder.getLayoutPosition();
+        //if (isTopViewCenterInHorizontal(viewHolder.itemView)) {
+        //    return Float.MAX_VALUE;
+        //}
+        //return super.getSwipeThreshold(dir, viewHolder);
     }
 
     @Override
-    public float getSwipeEscapeVelocity(float defaultValue) {
-        View topView = mRv.getChildAt(mRv.getChildCount() - 1);
-        if (isTopViewCenterInHorizontal(topView)) {
-            return Float.MAX_VALUE;
+    public float getSwipeEscapeVelocity(int dir, RecyclerView.ViewHolder viewHolder, float defaultValue) {
+        if (mRv.getLayoutManager() instanceof OverLayCardLayoutManager) {
+            OverLayCardLayoutManager layCardLayoutManager = (OverLayCardLayoutManager) mRv.getLayoutManager();
+
+            int top = layCardLayoutManager.getCurrentTopIndex();
+            int index = viewHolder.getLayoutPosition();
+
+            if(index == top && dir == ItemTouchHelper.LEFT ||
+               index == top - 1 && dir == ItemTouchHelper.RIGHT) {
+                return super.getSwipeEscapeVelocity(dir, viewHolder, defaultValue);
+            }
         }
-        return super.getSwipeEscapeVelocity(defaultValue);
+
+        return Float.MAX_VALUE;
+
+        //View topView = mRv.getChildAt(mRv.getChildCount() - 1);
+        //if (isTopViewCenterInHorizontal(topView)) {
+        //    return Float.MAX_VALUE;
+        //}
+        //return super.getSwipeEscapeVelocity(dir, viewHolder, defaultValue);
     }
 
     @Override

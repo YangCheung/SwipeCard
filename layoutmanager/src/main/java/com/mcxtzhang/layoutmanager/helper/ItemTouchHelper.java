@@ -50,7 +50,6 @@ import java.util.List;
  * <p>
  * Depending on which functionality you support, you should override
  * {@link Callback#onMove(RecyclerView, ViewHolder, ViewHolder)} and / or
- * {@link Callback#onSwiped(ViewHolder, int)}.
  * <p>
  * This class is designed to work with any LayoutManager but for certain situations, it can be
  * optimized for your custom LayoutManager by extending methods in the
@@ -981,9 +980,13 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration
         if (disableSwipe) {
             fakeEvent = MotionEvent.obtain(motionEvent);
             fakeEvent.setLocation(fakeEvent.getX() - mRecyclerView.getWidth(), fakeEvent.getY());
+            View child = findChildView(fakeEvent);
+            if (child != null) {
+                return mRecyclerView.getChildViewHolder(child);
+            }
         }
 
-        View child = findChildView(fakeEvent);
+        View child = findChildView(motionEvent);
         if (child == null) {
             return null;
         }
@@ -1259,14 +1262,14 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration
                 final int velDirFlag = xVelocity > 0f ? RIGHT : LEFT;
                 final float absXVelocity = Math.abs(xVelocity);
                 if ((velDirFlag & flags) != 0 && dirFlag == velDirFlag
-                        && absXVelocity >= mCallback.getSwipeEscapeVelocity(mSwipeEscapeVelocity)
+                        && absXVelocity >= mCallback.getSwipeEscapeVelocity(velDirFlag, viewHolder, mSwipeEscapeVelocity)
                         && absXVelocity > Math.abs(yVelocity)) {
                     return velDirFlag;
                 }
             }
 
             final float threshold = mRecyclerView.getWidth() * mCallback
-                    .getSwipeThreshold(viewHolder);
+                    .getSwipeThreshold(mDx > 0f ? RIGHT : LEFT, viewHolder);
 
             if ((flags & dirFlag) != 0 && Math.abs(mDx) > threshold) {
                 return dirFlag;
@@ -1286,14 +1289,14 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration
                 final int velDirFlag = yVelocity > 0f ? DOWN : UP;
                 final float absYVelocity = Math.abs(yVelocity);
                 if ((velDirFlag & flags) != 0 && velDirFlag == dirFlag
-                        && absYVelocity >= mCallback.getSwipeEscapeVelocity(mSwipeEscapeVelocity)
+                        && absYVelocity >= mCallback.getSwipeEscapeVelocity(velDirFlag, viewHolder, mSwipeEscapeVelocity)
                         && absYVelocity > Math.abs(xVelocity)) {
                     return velDirFlag;
                 }
             }
 
             final float threshold = mRecyclerView.getHeight() * mCallback
-                    .getSwipeThreshold(viewHolder);
+                    .getSwipeThreshold(mDy > 0f ? DOWN : UP, viewHolder);
             if ((flags & dirFlag) != 0 && Math.abs(mDy) > threshold) {
                 return dirFlag;
             }
@@ -1392,7 +1395,6 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration
      * custom drop target.
      * <p>
      * When a View is swiped, ItemTouchHelper animates it until it goes out of bounds, then calls
-     * {@link #onSwiped(ViewHolder, int)}. At this point, you should update your
      * adapter (e.g. remove the item) and call related Adapter#notify event.
      */
     @SuppressWarnings("UnusedParameters")
@@ -1716,7 +1718,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration
          * @return A float value that denotes the fraction of the View size. Default value
          * is .5f .
          */
-        public float getSwipeThreshold(ViewHolder viewHolder) {
+        public float getSwipeThreshold(int dir, ViewHolder viewHolder) {
             return .5f;
         }
 
@@ -1752,9 +1754,8 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration
          * @return The minimum swipe velocity. The default implementation returns the
          * <code>defaultValue</code> parameter.
          * @see #getSwipeVelocityThreshold(float)
-         * @see #getSwipeThreshold(ViewHolder)
          */
-        public float getSwipeEscapeVelocity(float defaultValue) {
+        public float getSwipeEscapeVelocity(int dir, ViewHolder viewHolder, float defaultValue) {
             return defaultValue;
         }
 
@@ -1775,7 +1776,6 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration
          * @param defaultValue The default value(in pixels per second) used by the ItemTouchHelper.
          * @return The velocity cap for pointer movements. The default implementation returns the
          * <code>defaultValue</code> parameter.
-         * @see #getSwipeEscapeVelocity(float)
          */
         public float getSwipeVelocityThreshold(float defaultValue) {
             return defaultValue;
